@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /* Serializable:
 * Permite transformar os objetos em cadeias de bytes, para que o objeto trafegue na rede ou ser gravados em arquivos
@@ -17,12 +19,15 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
     private String phone;
     private String password;
+
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
     public User(){
     }
@@ -76,6 +81,10 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -88,6 +97,4 @@ public class User implements Serializable {
     public int hashCode() {
         return Long.hashCode(id);
     }
-
-
 }
