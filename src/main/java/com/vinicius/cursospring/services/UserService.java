@@ -12,14 +12,22 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository repository; //Injeção de dependência por atributo
+
+    //Melhoria: Usar injeção de dependência por construtor (Boa prática)
 
     public List<User> findAll(){
         return repository.findAll();
     }
 
     public User findById(Long id){
+        /* Optional: Classe que funcina como um recipiente (Pode conter um obj ou estar vazio)
+        * Caso o usuário exista, contém o obj. Caso não, retorna Optional.empty()
+        * Problema: Buscar usuário que não existe lançará uma exceção NoSuchElementException. Pode resultar um uma resposta HTTP 500 (erro no servidor)
+        * */
         Optional<User> obj = repository.findById(id);
-        return obj.get();
+        return obj.get(); //Acessa o obj que está dentro do Optional
+
+        //Melhoria: Trocar o Optional para uma Exception (orElseThrow). Adicionar validação
     }
 }

@@ -1,5 +1,6 @@
 package com.vinicius.cursospring.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -8,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* Serializable:
-* Permite transformar os objetos em cadeias de bytes, para que o objeto trafegue na rede ou ser gravados em arquivos
+* Permite transformar os objetos em cadeias de bytes, para que o objeto trafegue na rede ou ser gravado em arquivos
 * Interface marcadora: Só avisa ao Java que os objetos da classe podem ser serializados
 */
+
+//Representa a entidade de usuário que será armazenada no BD
 
 @Entity
 @Table(name = "tb_user")
@@ -26,6 +29,7 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 

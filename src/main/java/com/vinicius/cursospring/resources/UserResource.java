@@ -11,20 +11,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/*
+* O Controller (UserResource) delega as operações para o Service, em vez de acessar diretamente o banco
+*
+*/
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
 
     @Autowired
-    private UserService service;
+    private UserService service; //Injeção de dependência por atributo (Field Injection)
 
-    @GetMapping
+    //Melhoria: Usar injeção de dependência por construtor (Boa prática)
+
+    @GetMapping //Endpoint (Retorna todos os usuários do sistema)
     public ResponseEntity<List<User>> findAll(){
         List<User> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}") //Endpoint (Retorna um usuário pelo ID)
     public ResponseEntity<User> findById(@PathVariable Long id){
         User obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
